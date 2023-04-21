@@ -34,32 +34,31 @@
             </li>
         </ul>
     </div>
-    <button @click="openModalTodo">Crear Todo</button>
+    <button @click="isOpen = true" >Crear Todo</button>
 
     <!--Modal-->
-    <Modal v-if="isOpen"
-           title="Add A todo"
-           @on:close="closeModalTodo"
-    >
+    <modal v-if="isOpen"
+        @on:close="isOpen = false"
+        >   
         <template v-slot:header>
-            <h1>Crea un nuevo Todo</h1>
+            <h1>Nueva tarea</h1>
         </template>
         <template v-slot:body>
-            <input type="text" placeholder="id">
-            <input type="text" placeholder="content">
-            <input type="checkbox" placeholder="Enabled">
+            <form @submit.prevent="createTodo(newTodoText); isOpen=false">
+            <input type="text"
+                placeholder="Nueva Tarea" maxlength="14"
+                v-model="newTodoText" >           
+            <br>
+            <br>
+            <br>
+            <button type="submit">Crear</button>
+           </form>
 
         </template>
-        <template v-slot:footer>    
-            <button @click="closeModalTodo">Salir</button>
-        </template>
-
-        <template v-slot:exposed="{ newTitle } ">
-            <h2>{{ newTitle }}</h2>
-        </template>
-    </Modal>
+    </modal>
 </template>
 <script>
+import { ref } from "vue"
 import useTodos from "../composables/useTodos";
 import Modal from "../components/Modal.vue"
 export default {
@@ -67,16 +66,16 @@ export default {
     
     setup(){
 
-       const { pending, currenTab,  getTodosByTab, toggleTodo, createTodo, isOpen, openModal, closeModal  } = useTodos()
+       const { pending, currenTab,  getTodosByTab, toggleTodo, createTodo}    = useTodos()
        
        return{
         pending,
         currenTab,
         getTodosByTab,
         toggleTodo,
-        isOpen,
-        openModal,
-        closeModal
+        createTodo,
+        isOpen: ref(false),
+        newTodoText: ref('')
        }
     }
 }
@@ -108,5 +107,15 @@ li:hover{
 }
 .completed{
     text-decoration: line-through;
+}
+input[type=text] {
+    padding: 5px;
+    font-size: 16px;
+    border-width: 1px;
+    border-color: #CCCCCC;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-style: solid;
+    border-radius: 0px;
 }
 </style>

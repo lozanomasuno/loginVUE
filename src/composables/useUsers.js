@@ -25,11 +25,12 @@ const useUsers = () => {
 
         isLoading.value = false         
     }
-
+    getUsers()
 
     return {
         users,       
         isLoading, 
+        currentPage,
         currentPage,
         errorMessage,
 

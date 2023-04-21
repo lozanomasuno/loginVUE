@@ -4,7 +4,6 @@ import { useStore } from 'vuex'
 const useTodos = () => {
     const store = useStore()
     const currenTab = ref('all')
-    const isOpen = ref(false)
     return {
         currenTab,
         pending: computed(()=> store.getters['pendingTodos']),
@@ -14,9 +13,7 @@ const useTodos = () => {
 
         // Methods
         toggleTodo:(id) => store.commit('toggleTodo', id),
-
-        openModalTodo  : ()=> isOpen.value = true,
-        closeModalTodo : ()=> isOpen.value = false,
+        createTodo:(text)=> store.commit('createTodo', text)
      }
 }
 
